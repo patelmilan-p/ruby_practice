@@ -1,0 +1,19 @@
+   Scenarios: Result of the rolled dice
+      | dice1 | dice2 | sum |
+      | 2     | 3     | 5   |
+      | 1     | 5     | 6   |
+      | 5     | 6     | 11  |
+      | 6     | 6     | 12  |
+      | 3     | 1     | 4   |
+      | 4     | 4     | 8   |
+      | 3     | 4     | 7   |
+      | 1     | 2     | 3   |
+      | 5     | 5     | 10  |  
+      
+      
+      
+      
+      
+      Then /^I should see "([^"]*)"$/ do |dice1, dice2, sum|
+  output.messages.should include("{#dice1} + {#dice2} = {#sum}")
+end
