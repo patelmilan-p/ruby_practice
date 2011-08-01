@@ -7,10 +7,6 @@ module Craps
     let(:input)  { double('input').as_null_object }
     let(:game)   { Game.new(output, input) }
 
-    it "should respond to #dice1" do
-      game.should respond_to(:dice1)
-    end
-
     describe "#start" do
       it "sends a welcome message" do
         output.should_receive(:puts).with("Welcome to Craps.")
@@ -31,7 +27,38 @@ module Craps
     describe "#roll_dice" do
       it "should show the result of the rolled dice" do
         output.should_receive(:puts).with("Player rolled 6 + 5 = 11")
-        game.roll_dice
+        game.roll_dice(6, 5)
+      end
+
+      context "when player lose" do
+        it "should display appropriately" do
+          output.should_receive(:puts).with("you lost the game")
+          game.roll_dice(6, 6)
+        end
+      end
+
+      context "when player win" do
+        it "should display appropriately" do
+          output.should_receive(:puts).with("you won the game")
+          game.roll_dice(5, 6)
+        end
+      end
+
+      context "when player makes a 'point'" do
+        it "should display the point and prompt to continue" do
+          output.should_receive(:puts).with("your point is 8")
+          output.should_receive(:puts).with("do you want to continue rolling the dice?")
+          game.roll_dice(4, 4)
+        end
+      end
+    end
+
+    describe "next_roll" do
+      context "when player makes his point and wins" do
+        it "should display 'you won the game'" do
+          output.should_receive(:puts).with("you won the game")
+          game.next_roll(2, 3, 5)
+        end
       end
     end
   end

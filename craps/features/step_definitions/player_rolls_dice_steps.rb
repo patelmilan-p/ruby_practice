@@ -13,25 +13,32 @@ When /^I want to roll the dice$/ do
 end
 
 Then /^I should see the result of the rolled dice$/ do
-  game.roll_dice
+  game.roll_dice(6, 5)
   output.messages.should include("Player rolled 6 + 5 = 11")
 end
 
-Given /^I have rolled the dice$/ do
-  game.roll_dice
+Given /^I accept to roll the dice$/ do
+  input.gets.should == 'yes'
 end
 
-When /^Dice one rolled "([^"]*)"$/ do |dice1|
-  game.stub(:dice1).and_return(dice1.to_i)
-  game.dice1.should == dice1.to_i
-
+When /^Dice's are rolled as "([^"]*)" and "([^"]*)"$/ do |dice1, dice2|
+  @dice1, @dice2 = dice1, dice2
 end
 
-When /^Dice two rolled "([^"]*)"$/ do |dice2|
-  game.stub(:dice2).and_return(dice2.to_i)
-  game.dice2.should == dice2.to_i
+Then /^I should see the "([^"]*)" and "([^"]*)"$/ do |result, game_status|
+  game.roll_dice(@dice1, @dice2)
+  output.messages.should include("Player rolled #{@dice1} + #{@dice2} = #{result}")
+  output.messages.should include(game_status)
 end
 
-Then /^I should see the "([^"]*)"$/ do |result|
-  output.messages.should include(result)
+When /^The result is equal to the "([^"]*)"$/ do |point|
+  game.next_roll(@dice1, @dice2, point)
+end
+
+When /^The result is equal to (\d+)$/ do |point|
+  game.next_roll(@dice1, @dice2, point)
+end
+
+When /^The result is not equal to the "([^"]*)"$/ do |point|
+  game.next_roll(@dice1, @dice2, point)
 end
