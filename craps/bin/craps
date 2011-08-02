@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'craps'
+require 'ruby-debug'
+
+game = Craps::Game.new(STDOUT, STDIN)
+#input = game.start().to_s
+#debugger
+
+def random_number
+  random_array = (1..6).to_a
+  random_array[rand(random_array.size)]
+end
+
+dice1 = random_number
+dice2 = random_number
+
+while input = game.start()
+  if input == "yes\n" then
+  	game.roll_dice(dice1, dice2)
+    @point = dice1 + dice2
+    break
+  elsif input == "no\n" then break
+  else puts "answer in (yes/no)!"
+  end
+end
+
+while input = gets
+	if input == "yes\n" then
+    dice1 = random_number
+    dice2 = random_number
+    game.next_roll(dice1, dice2)
+  else
+  	break
+  end
+end

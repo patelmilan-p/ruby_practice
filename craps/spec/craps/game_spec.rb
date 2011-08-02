@@ -60,6 +60,21 @@ module Craps
           game.next_roll(2, 3, 5)
         end
       end
+
+      context "when player throws 7 and loses" do
+        it "should display 'you lost the game'" do
+          output.should_receive(:puts).with("you lost the game")
+          game.next_roll(3, 4, 7)
+        end
+      end
+
+      context "when player does not make a point and continues" do
+        it "should display the sum and prompt to continue" do
+          output.should_receive(:puts).with("your sum is 9")
+          output.should_receive(:puts).with("do you want to continue rolling the dice?")
+          game.next_roll(4, 5, 10)
+        end
+      end
     end
   end
 end

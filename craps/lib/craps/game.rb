@@ -11,13 +11,13 @@ module Craps
       @input.gets
     end
 
-    def self.random_number
-      random_array = (1..6).to_a
-      random_array[rand(random_array.size)]
-    end
+#    def self.random_number
+#      random_array = (1..6).to_a
+#      random_array[rand(random_array.size)]
+#    end
 
-    dice1 = Game.random_number()
-    dice2 = Game.random_number()
+#    dice1 = Game.random_number
+#    dice2 = Game.random_number
 
     def roll_dice(dice1, dice2)
       @sum   = dice1.to_i + dice2.to_i
@@ -33,9 +33,9 @@ module Craps
     def game_status_after_first_throw
       if([2,3,12].include?(@sum)) then lost
       elsif([7,11].include?(@sum)) then won
-      elsif([4,5,6,8,9,10].include?(@sum)) then continue
+      elsif([4,5,6,8,9,10].include?(@sum)) then
         @output.puts "your point is #{@sum}"
-        @input.gets
+        continue
       end
     end
 
