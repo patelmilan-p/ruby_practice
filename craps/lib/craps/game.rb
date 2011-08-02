@@ -25,7 +25,7 @@ module Craps
       game_status_after_first_throw
     end
 
-    def next_roll(dice1, dice2, point = @sum)
+    def next_roll(dice1, dice2, point)
       @sum = dice1.to_i + dice2.to_i
       game_status(point)
     end
@@ -40,17 +40,24 @@ module Craps
     end
 
     def game_status(point)
-      if @sum == 7 then lost
-      elsif @sum == point.to_i then won
+      if @sum == 7 then lost(point)
+      elsif @sum == point.to_i then won(point)
       else continue
       end
     end
 
-    def won
+    def won(point = 0)
+      if point != 0 then
+        @output.puts "your sum: #{@sum} is equal to your point: #{point}"
+        @output.puts "you made your point."
+      end
       @output.puts "you won the game"
     end
 
-    def lost
+    def lost(point = 0)
+      if point != 0 then
+        @output.puts "you rolled 7 before making your point: #{point}"
+      end
       @output.puts "you lost the game"
     end
 
