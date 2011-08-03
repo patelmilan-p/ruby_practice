@@ -7,11 +7,16 @@ describe TowerOfHanoi do
     tower.peg1.should_not be_empty
   end
 
-  describe "TowerOfHanoi#moving_discs" do
+  describe "TowerOfHanoi#move_disc" do
     it "exactly one disc is moved at a time" do
       tower.move_disc
-      tower.peg1.should_receive(:pop)
-      tower.peg3.should_receive(:push).with(tower.peg1.pop)
+      tower.peg1.length.should == 3
+      tower.peg3.length.should == 1
+    end
+
+    it "at any time smaller disc is always placed on lager disc" do
+      tower.move_disc
+      tower.peg
     end
   end
 end

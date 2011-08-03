@@ -1,6 +1,11 @@
 class Stack
-  def initialize
+  def initialize(name)
     @stack = []
+    @name = name
+  end
+
+  def to_s
+    @name
   end
 
   def empty?
