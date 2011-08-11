@@ -33,38 +33,29 @@ def score(dice)
   # You need to write this method
   score = 0
   return score if dice.empty?
-  arr_1 = dice.select { |x| x == 1}
-  arr_5 = dice.select { |x| x == 5}
-  arr_2 = dice.select { |x| x == 2}
-  arr_3 = dice.select { |x| x == 3}
-  arr_4 = dice.select { |x| x == 4}
-  arr_6 = dice.select { |x| x == 6}
+  
+  face_counts = Hash.new(0)
+  
+  dice.each do |face|
+    face_counts[face] += 1
+  end
+  
+  face_counts.each do |face, count|
+    if face == 1 && count < 3
+      score += 100 * count
+    elsif face == 1 && count >= 3
+      score += 1000 + (count - 3) * 100
+    end
 
-  if arr_1.size < 3
-    score += 100 * arr_1.size
-  end
-  if arr_1.size >= 3
-    score += 1000
-  end
-  if arr_5.size < 3
-    score += 50 * arr_5.size
-  end
+    if face != 1 && count >= 3
+      score += face * 100
+    end
 
-  if arr_2.size == 3
-    score += 2 * 100
-  end
-  if arr_3.size == 3
-    score += 3 * 100
-  end
-  if arr_4.size == 3
-    score += 4 * 100
-  end
-  if arr_5.size >= 3
-    score += 5 * 100
-    score += (arr_5.size - 3) * 50
-  end
-  if arr_6.size == 3
-    score += 6 * 100
+    if face == 5 && count >= 3
+      score += (count - 3) * 50
+    elsif face == 5 && count < 3
+      score += count * 50
+    end
   end
   score
 end
