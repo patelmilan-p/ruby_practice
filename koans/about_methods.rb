@@ -18,7 +18,7 @@ class AboutMethods < EdgeCase::Koan
   # (NOTE: We are Using eval below because the example code is
   # considered to be syntactically invalid).
   def test_sometimes_missing_parentheses_are_ambiguous
-    eval "assert_equal 5, my_global_method '2, 3'" # ENABLE CHECK
+    eval "assert_equal 5, my_global_method(2, 3)" # ENABLE CHECK
     #
     # Ruby doesn't know if you mean:
     #
@@ -36,12 +36,12 @@ class AboutMethods < EdgeCase::Koan
     exception = assert_raise(ArgumentError) do
       my_global_method
     end
-    assert_match(/__/, exception.message)
+    assert_match(/wrong number of arguments/, exception.message)
 
     exception = assert_raise(ArgumentError) do
       my_global_method(1,2,3)
     end
-    assert_match(/__/, exception.message)
+    assert_match(/wrong number of arguments \(3 for 2\)/, exception.message)
   end
 
   # ------------------------------------------------------------------
@@ -112,14 +112,14 @@ class AboutMethods < EdgeCase::Koan
   private :my_private_method
 
   def test_calling_private_methods_without_receiver
-    assert_equal __, my_private_method
+    assert_equal "a secret", my_private_method
   end
 
   def test_calling_private_methods_with_an_explicit_receiver
-    exception = assert_raise(___) do
+    exception = assert_raise(NoMethodError) do
       self.my_private_method
     end
-    assert_match /__/, exception.message
+    assert_match /private method .* called for .+/, exception.message
   end
 
   # ------------------------------------------------------------------
@@ -138,12 +138,12 @@ class AboutMethods < EdgeCase::Koan
 
   def test_calling_methods_in_other_objects_require_explicit_receiver
     rover = Dog.new
-    assert_equal __, rover.name
+    assert_equal "Fido", rover.name
   end
 
   def test_calling_private_methods_in_other_objects
     rover = Dog.new
-    assert_raise(___) do
+    assert_raise(NoMethodError) do
       rover.tail
     end
   end
