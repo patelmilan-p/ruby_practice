@@ -1,23 +1,26 @@
 require File.expand_path(File.dirname(__FILE__) + '/edgecase')
-
+require 'ruby-debug'
 # Implement a DiceSet Class here:
 #
 class DiceSet
-  attr_reader :values
   def initialize
     @values = Array.new(5)
   end
 
+  def values
+    @values.dup
+  end
+
   def random_num
-    rand(5) + 1
+    rand(6) + 1
   end
 
   def roll(no_of_dice)
-    @values[0] = random_num
-    @values[1] = random_num
-    @values[2] = random_num
-    @values[3] = random_num
-    @values[4] = random_num
+    @values.clear
+
+    no_of_dice.times do
+      @values << random_num
+    end
   end
 end
 
