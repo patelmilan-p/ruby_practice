@@ -55,4 +55,10 @@ No commit for revision 0.
     assert_equal('2005-03-04', svn_date(Time.local(2005, 3, 4)))
   end
 
+  def test_churn_line_to_int_extracts_parenthesized_change_count
+    assert_equal(45, churn_line_to_int('audit          (45 changes)   *********'))
+    assert_equal(19, churn_line_to_int('ui2            (19 changes)   ****'))
+    assert_equal(0,  churn_line_to_int('persistence    -              -'))
+  end
+
 end
